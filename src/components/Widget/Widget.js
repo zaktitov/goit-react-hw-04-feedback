@@ -64,7 +64,7 @@ class Widget extends React.Component {
               bad={this.state.bad}
               neutral={this.state.neutral}
               total={this.countTotalFeedback()}
-              percentage={this.countPositiveFeedbackPercentage()}
+              percentage={this.countPositiveFeedbackPercentage() + '%'}
             />
           )}
         </Section>
