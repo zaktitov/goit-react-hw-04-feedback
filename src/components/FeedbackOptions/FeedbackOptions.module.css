@@ -1,0 +1,32 @@
+button {
+  width: 60px;
+  height: 40px;
+  padding: 10px;
+  border-color: transparent;
+  border-radius: 5px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 15px;
+  transition: trasform 250ms ease-in;
+}
+
+button:hover,
+button:focus {
+  transform: scale(1.1);
+}
+
+button:not(:last-child) {
+  margin-right: 20px;
+}
+
+.counter__btnRed {
+  background-color: crimson;
+}
+.counter__btnGreen {
+  background-color: lightgreen;
+}
+.counter__btnBlue {
+  background-color: lightblue;
+}
