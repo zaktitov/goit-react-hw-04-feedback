@@ -1,5 +1,12 @@
+ul {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  list-style: none;
+}
+
 button {
-  width: 60px;
+  width: 70px;
   height: 40px;
   padding: 10px;
   border-color: transparent;
@@ -8,8 +15,10 @@ button {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 18px;
   transition: trasform 250ms ease-in;
+  background-color: black;
+  color: whitesmoke;
 }
 
 button:hover,
@@ -21,7 +30,7 @@ button:not(:last-child) {
   margin-right: 20px;
 }
 
-.counter__btnRed {
+/* .counter__btnRed {
   background-color: crimson;
 }
 .counter__btnGreen {
@@ -29,4 +38,4 @@ button:not(:last-child) {
 }
 .counter__btnBlue {
   background-color: lightblue;
-}
+} */

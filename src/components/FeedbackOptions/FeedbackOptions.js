@@ -1,27 +1,31 @@
+import PropTypes from 'prop-types';
+
 import s from './FeedbackOptions.module.css';
 
-const FeedbackOptins = ({ goodIncrement, neutralIncrement, badIncrement }) => (
+const FeedbackOptions = ({ options, onLeaveFeedback }) => (
   <div>
-    <button
-      type="button"
-      className={s.counter__btnGreen}
-      onClick={goodIncrement}
-    >
-      Good
-    </button>
-
-    <button
-      type="button"
-      className={s.counter__btnBlue}
-      onClick={neutralIncrement}
-    >
-      Neutral
-    </button>
-
-    <button type="button" className={s.counter__btnRed} onClick={badIncrement}>
-      Bad
-    </button>
+    <ul className={s.optionList}>
+      {options.map((option, index) => {
+        return (
+          <li key={index} className={s.optionItem}>
+            <button
+              className={s.optionBtn}
+              onClick={() => {
+                onLeaveFeedback(option);
+              }}
+            >
+              {option}
+            </button>
+          </li>
+        );
+      })}
+    </ul>
   </div>
 );
 
-export default FeedbackOptins;
+export default FeedbackOptions;
+
+FeedbackOptions.propTypes = {
+  options: PropTypes.arrayOf(PropTypes.string.isRequired),
+  onLeaveFeedback: PropTypes.func.isRequired,
+};
