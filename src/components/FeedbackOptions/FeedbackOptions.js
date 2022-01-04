@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import s from './FeedbackOptions.module.css';
 
 const FeedbackOptions = ({ options, onLeaveFeedback }) => (
-  <div>
+  <div className="">
     <ul className={s.optionList}>
       {options.map((option, index) => {
         return (
