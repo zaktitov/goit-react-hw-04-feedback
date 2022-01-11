@@ -1,71 +1,59 @@
 import React from 'react';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 import s from './Widget.module.css';
 import Statistics from '../Statistics/Statistics';
 import FeedbackOptions from '../FeedbackOptions/FeedbackOptions';
 import Section from '../Section/Section';
 import NoFeedback from '../NoFeedback/NoFeedback';
 
-class Widget extends React.Component {
-  static defaultProps = {
-    good: 0,
-    bad: 0,
-    neutral: 0,
+export default function App() {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+
+  const handleFeedback = option => {
+    option === 'good' && setGood(prevState => prevState + 1);
+    option === 'neutral' && setNeutral(prevState => prevState + 1);
+    option === 'bad' && setBad(prevState => prevState + 1);
   };
 
-  state = {
-    good: this.props.good,
-    neutral: this.props.neutral,
-    bad: this.props.bad,
-  };
+  const feedbackOptions = { good, neutral, bad };
 
-  onOptionChange = option => {
-    this.setState(prevState => ({
-      [option]: prevState[option] + 1,
-    }));
-  };
+  const countTotalFeedback = () =>
+    Object.values(feedbackOptions).reduce((acc, curr) => acc + curr);
 
-  countTotalFeedback = () => {
-    const { good, bad, neutral } = this.state;
-    let total = good + bad + neutral;
-    return total;
-  };
+  const countPositiveFeedbackPercentage = () =>
+    Math.round((good / countTotalFeedback()) * 100);
 
-  countPositiveFeedbackPercentage = () => {
-    const positivePercentage =
-      Math.round((this.state.good / this.countTotalFeedback()) * 100) + '%';
+  const getStatisticsOptions = () => [
+    ...Object.entries(feedbackOptions),
+    ['total', countTotalFeedback()],
+    ['positive feedback', countPositiveFeedbackPercentage() + '%'],
+  ];
 
-    return positivePercentage;
-  };
+  return (
+    <div className={s.wrapper}>
+      <Section>
+        <FeedbackOptions
+          options={Object.keys(feedbackOptions)}
+          onLeaveFeedback={handleFeedback}
+        />
+      </Section>
 
-  render() {
-    const { good, neutral, bad } = this.state;
-    const keys = Object.keys(this.state);
-
-    return (
-      <div className={s.wrapper}>
-        <Section title={'Please leave feedback 👍'}>
-          <FeedbackOptions
-            options={keys}
-            onLeaveFeedback={this.onOptionChange}
-          />
-        </Section>
-
+      {countTotalFeedback() === 0 &&
+      isNaN(countPositiveFeedbackPercentage()) ? (
+        <NoFeedback message="There is no feedback" />
+      ) : (
         <Section title="Statistics">
-          {this.countTotalFeedback() === 0 ? (
-            <NoFeedback message={'No feedback given 😥'} />
-          ) : (
-            <Statistics
-              good={good}
-              bad={bad}
-              neutral={neutral}
-              total={this.countTotalFeedback()}
-              percentage={this.countPositiveFeedbackPercentage()}
-            />
-          )}
+          <Statistics options={getStatisticsOptions()} />
         </Section>
-      </div>
-    );
-  }
+      )}
+    </div>
+  );
 }
-
-export default Widget;
+App.propTypes = {
+  good: PropTypes.number,
+  neutral: PropTypes.number,
+  bad: PropTypes.number,
+};
